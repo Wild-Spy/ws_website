@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Wild Spy Pty Ltd 2014">
+	<link rel="shortcut icon" href="assets/ico/WSIcon.ico">
+
+	<title>Wild Spy Pty Ltd - WIDs</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Just for debugging purposes. Don't actually copy this line! -->
+	<!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<!--<script src="js/jquery-1.10.2.min.js"></script>-->
+	<script src="lightbox/js/lightbox-2.6.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#logger-image-link').click(function() {
+				$('#logger-images-1').trigger('click');
+			});
+
+			$('[rel=tooltip]').tooltip();
+
+			function isNumber(n) {
+				return !isNaN(parseFloat(n)) && isFinite(n);
+			}
+
+			function roundPlaces(num, places) {
+				return Math.round(num * Math.pow(10,places)) / Math.pow(10,places);
+			}
+
+			$('#loggerDeploymentBattInputAh').keyup(function() {
+				var loggerCurrentDraw = 0.007;
+				var batCapAh = $('#loggerDeploymentBattInputAh').val();
+				if (isNumber(batCapAh)) {
+					var depTimeHours = batCapAh*0.90/loggerCurrentDraw;
+					if (depTimeHours < 24) {
+						$('#loggerDeploymentLength').val(roundPlaces(depTimeHours/24, 2));
+						$('#loggerDeploymentLengthTimeFrame').text('hours');
+					} else if(depTimeHours < 24*30.5) {
+						$('#loggerDeploymentLength').val(roundPlaces(depTimeHours/24, 2));
+						$('#loggerDeploymentLengthTimeFrame').text('days');
+					} else if(depTimeHours < 24*365.25) {
+						$('#loggerDeploymentLength').val(roundPlaces(depTimeHours/24/30.5, 2));
+						$('#loggerDeploymentLengthTimeFrame').text('months');
+					} else {
+						$('#loggerDeploymentLength').val(roundPlaces(depTimeHours/24/365.25, 2));
+						$('#loggerDeploymentLengthTimeFrame').text('years');
+					}
+
+				} else {
+					$('#loggerDeploymentLength').val('Invalid Input');
+				}
+			});
+
+			$('#loggerDeploymentBattInputAh').keyup();
+
+		});
+
+	</script>
+	
+	<script type="text/javascript">
+// Javascript to enable link to tab
+$(function(){
+	var url = document.location.toString();
+	if (url.match('#')) {
+		$('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+	} 
+});
+	</script>
+
+	<!-- Custom styles for this template -->
+	<link href="carousel.css" rel="stylesheet">
+	<link href="submenus.css" rel="stylesheet">
+	<link href="https://www.wildspy.com.au/ProductLayout.css" rel="stylesheet">
+	<link href="lightbox/css/lightbox.css" rel="stylesheet" />
+</head>
+<!-- NAVBAR
+================================================== -->
+<body>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49739876-1', 'wildspy.com.au');
+  ga('send', 'pageview');
+
+</script><div class="modal fade bs-logger-deployment-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">WID Logger Deployment Time Calculator</h4>
+			</div>
+			<div class="modal-body">
+				12V Battery Capacity
+				<div class="input-group">
+					<input id="loggerDeploymentBattInputAh" type="text" class="form-control" value="26">
+					<span class="input-group-addon">Ah</span>
+				</div>
+				<p></p>
+				Deployment Time*
+				<div class="input-group">
+					<input id="loggerDeploymentLength" type="text" class="form-control" placeholder="26" disabled>
+					<span id="loggerDeploymentLengthTimeFrame" class="input-group-addon">days</span>
+				</div>
+				<p></p>
+				<small>* Estimate only based on average current consumption of 7mA @ 12V.  Temperature and tag pickup frequency will affect this estimate.</small>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<!--<button type="button" class="btn btn-primary">Close</button>-->
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="navbar-wrapper">
+	<div class="container">
+
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html"><img src="assets/img/Logo/WS_Logo_Header.png" height="100%" alt="Wild Spy Pty Ltd"></img></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="index.html">Home</a></li>
+						<li class="dropdown">
+							<a href="Products/WIDs.html#" class="dropdown-toggle" data-toggle="dropdown">Products <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li class="active"><a href="Products/WIDs.html">Wireless ID (WID) System</a></li>
+								<li><a href="prototypes.html">Prototypes</a></li>
+								<li><a href="resources.html">Downloads & Resources</a></li>
+								<li class="dropdown-header">Open Source (Coming Soon)</li>
+							</ul>
+						</li>
+						<li><a href="projects.html">Projects</a></li>
+						<li><a href="publications.html">Publications</a></li>
+						<li><a href="about.html">About</a></li>
+						<li><a href="contact.html">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+<!-- Marketing messaging and featurettes
+================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+
+<br>
+<br>
+<div class="container marketing">
+
+	<div class="page-header">
+		<img src="Products/img/Header_WIDs.png" style="max-width: 100%;" alt="Wireless Identification (WID) System"></img>
+	</div>
+	<div class="row">
+		<div class="col-lg-3" style="text-align: center">
+			<img src="Products/img/WID/WID_Tag_Spin.gif" style="max-width: 50%;" alt=""></img>
+			<div class="ProductSideBarInfo">
+
+			</div>
+		</div>
+		<div class="col-lg-8" >
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="Products/WIDs.html#overview" data-toggle="tab">Overview</a></li>
+				<li><a href="Products/WIDs.html#specs" data-toggle="tab">Specifications</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="overview">
+					<div class="row featurette">
+						<div class="col-md-1">
+						</div>
+						<div class="col-md-10">
+							<h4 style="padding-top: 10px;text-align: left"><b>A Versatile System for Detection of Your Target Animals</b></h4>
+							<p style="padding-top: 5px;text-align: justify">
+							Wild Spy's Wireless Identification (WID) tags are animal-borne transmitters with a range of 20-200m line-of-sight, dependent on choice of conformal chipscale or external whip antenna. Each WID transmits a unique identifier which is picked up by a datalogger when in range. WID dataloggers record tag ID, date, time, duration of detection, and received signal strength indication (RSSI).
+							<br>
+							<br>
+							WIDs come standard in the form of an ear tag, or can be designed in virtually any format to suit most species, including small mammals, birds, and reptiles. WIDs can easily be fitted into existing collars or built into our own collars, as well as fitted to anklets, backpacks or any other animal-borne device.
+							<br>
+							<br>
+							One WID tag is fitted to each animal and multiple WID receivers are placed around your study site. WID dataloggers can be placed at particular locations of interest (nests, burrows, fences, water sources) or throughout the site and the number needed depends on the site and project aims. Alternatively, WID receivers can be hand-held or attached to UAVs for identification of animals from a distance and survivability studies.
+							<br>
+							<br>
+							For more information, see our <a href="Products/docs/Wild_Spy_WID_Brochure.pdf">WID brochure</a>.</p>
+							<p><b>Benefits:</b></p>
+							<ul>
+								<li>Light-weight</li>
+								<li>Small size</li>
+								<li>Cost-effective</li>
+								<li>Customisable for small animals and variable attachments</li>
+							</ul>
+							<p><b>Features:</b></p>
+							<ul>
+								<li>Long deployment times relative to tag size and research requirements (from a few months to more than a decade)</li>
+								<li>Tags are fully weather proof, and can be customised for use in marine environments</li>
+								<li>Datalogging system with highly adaptable power options including solar for long term monitoring</li>
+								<li>Inter-logger and satellite communication options available</li>
+							</ul>
+							<a href="Products/img/WID/WID_System_Diagram.gif" data-lightbox="WIDSysGIF" title="WID System Overview">
+								<img id="WIDAnimation" class="thumbnail" src="Products/img/WID/WID_System_Diagram_TH.gif" style="max-width: 90%;" alt=""></a>
+							<div class="caption"><small><b>WID System Overview</b> <p>(Click for larger version)</p></small></div>
+
+							<a href="Products/img/WID/WID_Tags_Size_Comparison.jpg" data-lightbox="EarTagComp" title="Comparison of WID Ear Tags<br>Scale bars are at 5mm increments"><img id="WIDEarTags" class="thumbnail" src="Products/img/WID/WID_Tags_Size_Comparison_TH.jpg" style="max-width: 90%;" alt=""></a>
+							<div class="caption"><small><b>Comparison of 1225, 1632, and 2025 WID Ear Tags</b> <p>Scale bars are at 5mm increments<br>(Click for larger version)</p></small></div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="specs">
+					<div class="row featurette">
+						<div class="col-md-12">
+							<h3 style="text-align: center; margin-top: 10px">Datalogger</h2>
+								<table class="table table-striped">
+									<thead>
+									<tr>
+										<th>Item</th>
+										<th>Value</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td>
+											<a href="Products/img/WID/WID_Logger_Open_1000x1200.jpg" data-lightbox="logger-images" title="WID Logger Complete">
+											Complete Unit</a> Dimensions <div style="display:inline-block">(L x W x D)</div>
+											<p><small>26Ah battery, water proof</small></p>
+										</td>
+										<td>410 x 332 x 155 mm</td>
+									</tr>
+									<tr>
+										<td>
+											<a href="Products/img/WID/WID_Logger_Box_1200x800.jpg" data-lightbox="logger-images" title="WID Logger Minimum Box">
+												Minimum Box
+											</a>
+											Dimensions <div style="display:inline-block">(L x W x D)</div>
+											<p><small>no battery, water resistant</small></p>
+										</td>
+										<td>243 x 120 x 74 mm</td>
+									</tr>
+									<tr>
+										<td>Current Consumption</td>
+										<td>7mA @ 12V</td>
+									</tr>
+									<tr>
+										<td><a href="Products/WIDs.html#!" data-toggle="modal" data-target=".bs-logger-deployment-modal-sm">Battery Life</a></td>
+										<td>4 months and 2 weeks <p><small>26Ah 12V lead acid</small></p></td>
+									</tr>
+									</tbody>
+								</table>
+						</div>
+					</div>
+					<hr width="75%" size="3" style="margin-top: -20px;">
+					<div class="row featurette">
+						<div class="col-md-12">
+							<h3 style="text-align: center; margin-top: 10px">Ear Tag</h2>
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="Products/WIDs.html#1225Tag" data-toggle="tab">1225 Tag</a></li>
+									<li><a href="Products/WIDs.html#1632Tag" data-toggle="tab">1632 Tag</a></li>
+									<li><a href="Products/WIDs.html#2032Tag" data-toggle="tab">2032 Tag</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="1225Tag">
+										<div class="row featurette">
+											<div class="col-md-3">
+												<img class="featurette-image img-responsive thumbnail" src="Products/img/WID/WID_Tag_1225Ear_thumb.jpg" alt="">
+											</div>
+											<div class="col-md-9">
+												<!-- <h4 style="text-align: center; margin-top: 10px">General Specs</h4> -->
+												<table class="table table-striped">
+													<thead>
+													<tr>
+														<th>Item</th>
+														<th>Value</th>
+													</tr>
+													</thead>
+													<tbody>
+													<tr>
+														<td>
+															Dimensions (L x W x D)
+															<p><small>Excluding spike</small></p>
+														</td>
+														<td>35 x 15 x 7 mm</td>
+													</tr>
+													<tr>
+														<td>
+															Spike Length
+															<p><small>From edge of tag to tip of spike</small></p>
+														</td>
+														<td>15.5 mm</td>
+													</tr>
+													<tr>
+														<td>
+															Weight
+														</td>
+														<td>~ 5 g</td>
+													</tr>
+													<tr>
+														<td>
+															Battery Capacity
+															<p><small>3V Lithium CR1225</small></p>
+														</td>
+														<td>50 mAh</td>
+													</tr>
+													<tr>
+														<td>Standard Deployment</td>
+														<td>
+															6 months @ 10sec tx rate
+															<a href="Products/WIDs.html#!" rel="tooltip" data-placement="left" title="Medium Range 50kbps +1dBm"><p><small>Approx 50-100m LOS range</small></p></a>
+														</td>
+													</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<h4 style="text-align: center; margin-top: 10px">Deployment Times</h4>
+										<table class="table table-striped" >
+											<thead>
+											<tr>
+												<th>Transmit Period</th>
+												<th>Expected Life*</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>1 second</td>
+												<td>22 days</td>
+											</tr>
+											<tr>
+												<td>2 seconds</td>
+												<td>1 month, 13 days</td>
+											</tr>
+											<tr>
+												<td>5 seconds</td>
+												<td>3 months, 10 days</td>
+											</tr>
+											<tr>
+												<td>10 seconds</td>
+												<td>6 months</td>
+											</tr>
+											<tr>
+												<td>30 seconds</td>
+												<td>1 year, 5 months</td>
+											</tr>
+											</tbody>
+										</table>
+										<p><small>* Based on 90% battery capacity at 25°C</small></p>
+									</div>
+									<div class="tab-pane" id="1632Tag">
+										<div class="row featurette">
+											<div class="col-md-3">
+												<img class="featurette-image img-responsive thumbnail" src="Products/img/WID/WID_Tag_1632Ear_thumb.jpg" alt="">
+											</div>
+											<div class="col-md-9">
+												<h4 style="text-align: center; margin-top: 10px">General Specs</h4>
+												<table class="table table-striped">
+													<thead>
+													<tr>
+														<th>Item</th>
+														<th>Value</th>
+													</tr>
+													</thead>
+													<tbody>
+													<tr>
+														<td>
+															Dimensions (L x W x D)
+															<p><small>Excluding spike</small></p>
+														</td>
+														<td>38 x 18 x 8 mm</td>
+													</tr>
+													<tr>
+														<td>
+															Spike Length
+															<p><small>From edge of tag to tip of spike</small></p>
+														</td>
+														<td>15.5 mm</td>
+													</tr>
+													<tr>
+														<td>
+															Weight
+														</td>
+														<td>~ 6 g</td>
+													</tr>
+													<tr>
+														<td>
+															Battery Capacity
+															<p><small>3V Lithium CR1632</small></p>
+														</td>
+														<td>120 mAh</td>
+													</tr>
+													<tr>
+														<td>Standard Deployment</td>
+														<td>
+															1 year, 2 months @ 10sec tx rate
+															<a href="Products/WIDs.html#!" rel="tooltip" data-placement="left" title="Medium Range 50kbps +1dBm"><p><small>Approx 50-100m LOS range</small></p></a>
+														</td>
+													</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<h4 style="text-align: center; margin-top: 10px">Deployment Times</h4>
+										<table class="table table-striped" >
+											<thead>
+											<tr>
+												<th>Transmit Period</th>
+												<th>Expected Life*</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>1 second</td>
+												<td>1 month, 22 days</td>
+											</tr>
+											<tr>
+												<td>2 seconds</td>
+												<td>3 month, 12 days</td>
+											</tr>
+											<tr>
+												<td>5 seconds</td>
+												<td>8 months</td>
+											</tr>
+											<tr>
+												<td>10 seconds</td>
+												<td>1 year, 2 months</td>
+											</tr>
+											<tr>
+												<td>30 seconds</td>
+												<td>3 years, 6 months</td>
+											</tr>
+											</tbody>
+										</table>
+										<p><small>* Based on 90% battery capacity at 25°C</small></p>
+									</div>
+									<div class="tab-pane" id="2032Tag">
+										<div class="row featurette">
+											<div class="col-md-3">
+												<img class="featurette-image img-responsive thumbnail" src="Products/img/WID/WID_Tag_2032Ear_thumb.jpg" alt="">
+											</div>
+											<div class="col-md-9">
+												<h4 style="text-align: center; margin-top: 10px">General Specs</h4>
+												<table class="table table-striped">
+													<thead>
+													<tr>
+														<th>Item</th>
+														<th>Value</th>
+													</tr>
+													</thead>
+													<tbody>
+													<tr>
+														<td>
+															Dimensions (L x W x D)
+															<p><small>Excluding spike</small></p>
+														</td>
+														<td>42 x 23 x 8.5 mm</td>
+													</tr>
+													<tr>
+														<td>
+															Spike Length
+															<p><small>From edge of tag to tip of spike</small></p>
+														</td>
+														<td>16 mm</td>
+													</tr>
+													<tr>
+														<td>
+															Weight
+														</td>
+														<td>~ 7 g</td>
+													</tr>
+													<tr>
+														<td>
+															Battery Capacity
+															<p><small>3V Lithium CR2032</small></p>
+														</td>
+														<td>220 mAh</td>
+													</tr>
+													<tr>
+														<td>Standard Deployment</td>
+														<td>
+															2 years, 3 months @ 10sec tx rate
+															<a href="Products/WIDs.html#!" rel="tooltip" data-placement="left" title="Medium Range 50kbps +1dBm"><p><small>Approx 50-100m LOS range</small></p></a>
+														</td>
+													</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<h4 style="text-align: center; margin-top: 10px">Deployment Times</h4>
+										<table class="table table-striped" >
+											<thead>
+											<tr>
+												<th>Transmit Period</th>
+												<th>Expected Life*</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>1 second</td>
+												<td>3 months</td>
+											</tr>
+											<tr>
+												<td>2 seconds</td>
+												<td>6 months</td>
+											</tr>
+											<tr>
+												<td>5 seconds</td>
+												<td>1 year, 2 months</td>
+											</tr>
+											<tr>
+												<td>10 seconds</td>
+												<td>2 years, 3 months</td>
+											</tr>
+											<tr>
+												<td>30 seconds</td>
+												<td>6+ years</td>
+											</tr>
+											</tbody>
+										</table>
+										<p><small>* Based on 90% battery capacity at 25°C</small></p>
+									</div>
+									</div>
+										</div>
+								</div>
+						</div>
+			</div>
+		</div>
+	</div>
+	<!-- /END THE FEATURETTES -->
+<br>
+<br>
+<br>
+<br>
+	<!-- FOOTER -->
+	
+<hr class="featurette-dividerfoot">
+	<table align="center">
+	<tr>
+		<th style="text-align: center" width="15%"><a href="https://twitter.com/wildspyrob"><img src="assets/ico/Twitter_Icon.png" alt="Twitter" height="32" width="32"></a></th>
+		<th style="text-align: center" width="15%"><a href="https://www.facebook.com/WildSpyTracking/"><img src="assets/ico/Facebook_Icon.png" alt="Facebook" height="32" width="32"></a></th>
+		<th style="text-align: center" width="15%"><a href="https://www.instagram.com/wild.spy/"><img src="assets/ico/Instagram_Icon2.png" alt="Instagram" height="32" width="32"></a></th>
+		<th style="text-align: center" width="15%"><a href="https://au.linkedin.com/company/wildspy"><img src="assets/ico/Linkedin_Icon.png" alt="LinkedIn" height="32" width="32"></a></th>
+	</tr>
+	<tr>
+		<td class="caption" style="text-align: center" width="15%">Follow us on Twitter</td>
+		<td class="caption" style="text-align: center" width="15%">Follow us on Facebook</td>
+		<td class="caption" style="text-align: center" width="15%">Follow us on Instagram</td>
+		<td class="caption" style="text-align: center" width="15%">Follow us on LinkedIn</td>
+	</tr>
+	</table>
+	<br>
+	<p class="pull-right"><a href="Products/WIDs.html#">Back to top</a></p>
+	<p class="pull-left"><a href="mailto:enquiries@wildspy.com.au">Contact Us</a></p></p>
+	<p style="text-align: center">&copy; 2018 Wild Spy Pty Ltd</p>
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+<script src="dist/js/bootstrap.min.js"></script>
+<script src="assets/js/docs.min.js"></script>
+<noscript>
+	<link rel="stylesheet" type="text/css" href="dist/css/noscript.css">
+</noscript>
+</body>
+</html>

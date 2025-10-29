@@ -1,0 +1,19 @@
+body:before{
+    content: 'Javascript is currently disabled. This site requires Javascript to function correctly.';
+
+    color: white;
+    font-family: sans-serif;
+    font-size: 1.25em;
+    font-weight: bold;
+    text-align: center;
+
+    width: 100%;
+    padding: 1em 0;
+
+    background: rgba(150,0,0,1);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+}
